@@ -6,12 +6,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 var admin = require('./Models/admin');
 
-mongoose.connect('mongodb://localhost:27017/admindb', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://rohit_patil:Jm3i0ZhKXnZlDWEd@cluster0.ae10b.mongodb.net/usermodule?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.post('/put', function (req, res) {
+app.post('/create-admin', function (req, res) {
     const data = new admin({
         _id: new mongoose.Types.ObjectId(),
-        username: req.body.email,
+        username: req.body.username,
         password: req.body.password
     });
     data.save().then(result => {
@@ -21,11 +21,11 @@ app.post('/put', function (req, res) {
     });
 });
 
-app.get('/fetch', function(req,res){
-    admin.find().then(result => {
+app.post('/admin-login', function (req, res) {
+    admin.findOne({ username: req.body.username, password: req.body.password }).then(result => {
         res.json(result);
     }).catch(err => {
-        res.json(err);
+        res.json(err); 
     });
 });
 

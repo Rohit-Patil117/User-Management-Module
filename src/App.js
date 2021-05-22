@@ -8,25 +8,23 @@ import SignUp from "./component/SignUp";
 import AdminLogin from "./component/AdminLogin";
 
 
-
-
 function App() {
   return (
     <Router>
       <div className="App">
         <nav className="navbar navbar-expand-lg navbar-light">
           <div className="container">
-            <Link className="navbar-brand" to={"/sign-in"}>User Management</Link>
+            <Link className="navbar-brand font-weight-bold" to={"/"}>User Management</Link>
             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/sign-in"}>Login</Link>
+                  <Link className="nav-link text-dark font-weight-bold" to={"/sign-in"}>Login</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
+                  <Link className="nav-link text-dark font-weight-bold" to={"/sign-up"}>Sign up</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/admin-login"}>Admin</Link>
+                  <Link className="nav-link text-dark font-weight-bold" to={"/admin-login"}>Admin</Link>
                 </li>
               </ul>
             </div>
@@ -37,9 +35,9 @@ function App() {
           <div className="auth-inner">
             <Switch>
               <Route exact path="/" component={Login} />
-              <Route exact path="/sign-in" component={Login} />
-              <Route exact path="/sign-up" component={SignUp} />
-              <Route exact path="/admin-login" component={AdminLogin} />
+              <Route path="/sign-in" component={Login} />
+              <Route path="/sign-up" component={SignUp} />
+              <Route path="/admin-login" component={AdminLogin} />
             </Switch>
           </div>
         </div>

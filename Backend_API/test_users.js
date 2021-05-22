@@ -5,9 +5,9 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const users = require('./Models/users');
-var nodemailer = require('nodemailer');
+var nodemailer = require('nodemailer'); 
 
-mongoose.connect('mongodb://localhost:27017/management', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://rohit_patil:Jm3i0ZhKXnZlDWEd@cluster0.ae10b.mongodb.net/usermodule?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.post('/put', function (req, res) {
     const data = new users({
@@ -26,6 +26,22 @@ app.post('/put', function (req, res) {
 
 app.get('/get', function (req, res) {
     users.find().then(result => {
+        res.json(result);
+    }).catch(err => {
+        res.json(err);
+    });
+});
+
+app.post('/login', function (req, res) {
+    users.findOne({ email: req.body.email, password: req.body.password }).then(result => {
+        res.json(result);
+    }).catch(err => {
+        res.json(err);
+    });
+});
+
+app.post('/sign-up', function (req, res) {
+    users.findOne({ email: req.body.email}).then(result => {
         res.json(result);
     }).catch(err => {
         res.json(err);

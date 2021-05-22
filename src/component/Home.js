@@ -20,8 +20,8 @@ export default class Home extends React.Component {
         return (
             <div className="Home-body">
                 <div className="App-header">
-                    <img src={logo}></img>
-                    <a href="/"><ExitToAppIcon /></a>
+                    <img src={logo} alr='logo'></img>
+                    <a href="/"><ExitToAppIcon onClick={() => { localStorage.clear() }} /></a>
                 </div>
                 <div className="App-container">
                     <div className="App-sidebar">
@@ -48,12 +48,12 @@ export default class Home extends React.Component {
                         </List>
                     </div>
                     <div className="App-main">
-                        <img src={img1}></img>
-                        <img src={img2}></img>
-                        <img src={img3}></img>
-                        <img src={img4}></img>
-                        <img src={img5}></img>
-                        <img src={img6}></img>
+                        <img src={img1} alt='img1'></img>
+                        <img src={img2} alt='img2'></img>
+                        <img src={img3} alt='img3'></img>
+                        <img src={img4} alt='img4'></img>
+                        <img src={img5} alt='img6'></img>
+                        <img src={img6} alt='img7'></img>
                     </div>
                 </div>
                 <div className="App-footer">

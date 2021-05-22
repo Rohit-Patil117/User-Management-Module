@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import '../App.css';
 import axios from 'axios';
@@ -7,8 +7,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import TextField from '@material-ui/core/TextField';
-import { Button } from '@material-ui/core';
 
 export default class AdminPannal extends React.Component {
     constructor(props) {
@@ -30,10 +28,12 @@ export default class AdminPannal extends React.Component {
 
     }
 
-    submit() {
-        axios.delete('http://localhost:5000/delete/' + this.state._id).then(result => {
-            document.location.reload(true);
-        }).catch(err => console.log(err));
+    submit(id) {
+        if (window.confirm('Are you sure to delete this user?')) {
+            axios.delete('http://localhost:5000/delete/' + id).then(result => {
+                document.location.reload(true);
+            }).catch(err => console.log(err));
+        }
     }
 
     render() {
@@ -41,7 +41,7 @@ export default class AdminPannal extends React.Component {
             <div className="App-body">
                 <div className="App-header">
                     <h4>Hello, Admin</h4>
-                    <a href="/"><ExitToAppIcon /></a>  
+                    <a href="/"><ExitToAppIcon onClick={() => { localStorage.clear() }} /></a>
                 </div>
                 <div className="App-container">
                     <div className="App-sidebar">
@@ -66,21 +66,7 @@ export default class AdminPannal extends React.Component {
                                 <ListItemText primary="Spam" />
                             </ListItem>
                         </List>
-                        <br /><br />
-                        <TextField id="outlined-basic"
-                            label="User ID"
-                            variant="outlined"
-                            onChange={(e) => { this.setState({ _id: e.target.value }) }}
-                        />
-                        <br /><br />
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className="button"
-                            onClick={() => this.submit()}
-                            startIcon={<DeleteIcon />}
-                        >Delete
-                        </Button>
+
                     </div>
                     <div className="App-main">
                         <table border="1" width="100%">
@@ -91,7 +77,7 @@ export default class AdminPannal extends React.Component {
                                     <th>Last Name</th>
                                     <th>Email</th>
                                     <th>Password</th>
-                                    <th>User ID</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,7 +88,7 @@ export default class AdminPannal extends React.Component {
                                         <td>{el.lastname}</td>
                                         <td>{el.email}</td>
                                         <td>{el.password}</td>
-                                        <td>{el._id}</td>
+                                        <td><DeleteIcon className="App-delete" onClick={() => { this.submit(el._id) }} /></td>
                                     </tr>
                                 ))}
                             </tbody>

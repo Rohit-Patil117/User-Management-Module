@@ -1,3 +1,4 @@
+
 .App-body{
     background-color: white;
 }
@@ -12,7 +13,13 @@
 }
 .App-header a{
     color: white;
+    
 }
+
+.App-header a:hover{
+    color: antiquewhite;
+}
+
 .App-container{
     display: flex;
     justify-content: space-between;
@@ -41,12 +48,16 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    text-align: center;
   }
   
   td, th {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 17px;
   }
   
   tr:nth-child(even) {
@@ -79,3 +90,13 @@ table {
     height: 50px;
     margin-top: -10px;
  }
+
+ .App-delete{
+     color: #1C8EF9;
+     cursor: pointer;
+ }
+
+ .App-delete:hover{
+     color:black;
+ }
+ 

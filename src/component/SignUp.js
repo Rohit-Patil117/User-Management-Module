@@ -14,7 +14,7 @@ export default class SignUp extends Component {
             }
         ]
     }
-    clear(id){
+    clear(id) {
         document.getElementById(id).innerHTML = "";
     }
 
@@ -30,17 +30,10 @@ export default class SignUp extends Component {
                         var RegEx2 = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
                         if (RegEx1.test(email)) {
                             if (RegEx2.test(password)) {
-                                axios.get('http://localhost:5000/get').then(result => {
-                                    var count = 0;
-                                    result.data.map((ele) => {
-                                        if (this.state.email === ele.email) {
-                                            count += 1
-                                        }
-                                    });
-                                    if (count === 1) {
-                                        document.getElementById("email").innerHTML = "**This Email is already registered."
-                                    }
-                                    else {
+                                axios.post('http://localhost:5000/sign-up', {
+                                    email: this.state.email
+                                }).then(result => {
+                                    if (result.data === null) {
                                         axios.post('http://localhost:5000/put', {
                                             firstname: this.state.firstname,
                                             lastname: this.state.lastname,
@@ -49,10 +42,15 @@ export default class SignUp extends Component {
                                         }).then(result => {
                                             axios.post('http://localhost:5000/' + this.state.email).then(res => console.log(res)).catch(err => console.log(err));
                                             alert('Sign up suceessful..');
+                                            window.location.href = '/';
+
                                         }).catch(err => console.log(err));
                                     }
+                                    else {
+                                        document.getElementById("email").innerHTML = "**This Email is already registered."
+                                    }
 
-                                });
+                                }).catch(err => console.log(err));
                             }
                             else {
                                 document.getElementById("password").innerHTML = "**Password should contain at least 1 uppercase, 1 lowercase, 1 digit, 1 special symbol and minimum 8 characters.";
@@ -87,7 +85,9 @@ export default class SignUp extends Component {
 
                 <div className="form-group">
                     <label>First name</label>
-                    <input type="text" className="form-control" placeholder="First name"
+                    <input type="text"
+                        className="form-control"
+                        placeholder="First name"
                         onChange={(e) => { this.setState({ firstname: e.target.value }) }}
                         onKeyDown={() => this.clear("firstname")}
                     />
@@ -96,7 +96,9 @@ export default class SignUp extends Component {
 
                 <div className="form-group">
                     <label>Last name</label>
-                    <input type="text" className="form-control" placeholder="Last name"
+                    <input type="text"
+                        className="form-control"
+                        placeholder="Last name"
                         onChange={(e) => { this.setState({ lastname: e.target.value }) }}
                         onKeyDown={() => this.clear("lastname")}
                     />
@@ -105,7 +107,9 @@ export default class SignUp extends Component {
 
                 <div className="form-group">
                     <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="Enter email"
+                    <input type="email"
+                        className="form-control"
+                        placeholder="Enter email"
                         onChange={(e) => { this.setState({ email: e.target.value }) }}
                         onKeyDown={() => this.clear("email")}
                     />
@@ -114,18 +118,23 @@ export default class SignUp extends Component {
 
                 <div className="form-group">
                     <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter password"
+                    <input type="password"
+                        className="form-control"
+                        placeholder="Enter password"
                         onChange={(e) => { this.setState({ password: e.target.value }) }}
                         onKeyDown={() => this.clear("password")}
                     />
                     <span id="password"></span>
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-block"
+                <button type="submit"
+                    className="btn btn-primary btn-block"
                     onClick={() => this.submit()}
-                >Sign Up</button>
+                >Sign Up
+                </button>
+
                 <p className="forgot-password text-right">
-                    Already registered <a href="#">sign in?</a>
+                    Already registered <a href="/">sign in?</a>
                 </p>
             </div >
         );
