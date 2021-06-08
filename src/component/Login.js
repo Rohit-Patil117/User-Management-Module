@@ -4,35 +4,61 @@ import '../App.css'
 
 
 export default class Login extends Component {
+
     constructor(props) {
         super(props)
-        this.state = [
-            {
-                email: null,
-                password: null
-            }
-        ]
+        this.state = {
+            email: '',
+            password: '',
+            errEmail: '',
+            errPass: '',
+            errMsg: ''
+        }
+        this.clear = this.clear.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
-    clear(id) {
-        document.getElementById(id).innerHTML = "";
+    clear(e) {
+        switch (e.target.id) {
+            case "email":
+                this.setState({ errEmail: '', errMsg: '' });
+                break;
+            case "password":
+                this.setState({ errPass: '', errMsg: '' });
+                break;
+        }
     }
 
     submit() {
-        axios.post('http://localhost:5000/login', {
-            email: this.state.email,
-            password: this.state.password
-        }).then(result => {
-            if (result.data === null) {
-                document.getElementById('wrong').innerHTML = 'Sorry, Wrong Credentials.';
+        if (this.state.email) {
+            if (this.state.password) {
+                axios.post('http://localhost:5000/login', {
+                    email: this.state.email,
+                    password: this.state.password
+                }).then(result => {
+                    if (result.data === null) {
+                        this.setState({
+                            errMsg: 'Sorry, Wrong Credentials'
+                        });
+                    }
+                    else {
+                        localStorage.setItem('user-login', true);
+                        window.location.href = "/home";
+                        //console.log(this.props.history.push('/admin-login'));
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            } else {
+                this.setState({
+                    errPass: '**Password should not blank'
+                });
             }
-            else {
-                localStorage.setItem('user-login', true);
-                window.location.href = "/home";
-            }
-        }).catch(err => {
-            console.log(err); 
-        });
+        } else {
+            this.setState({
+                errEmail: '**Email should not blank'
+            });
+        }
     }
 
     render() {
@@ -45,9 +71,11 @@ export default class Login extends Component {
                     <input type="email"
                         className="form-control"
                         placeholder="Enter email"
+                        id="email"
                         onChange={(e) => { this.setState({ email: e.target.value }) }}
-                        onKeyDown={() => this.clear("wrong")}
+                        onKeyDown={this.clear}
                     />
+                    <span className="span">{this.state.errEmail}</span>
                 </div>
 
                 <div className="form-group">
@@ -55,9 +83,11 @@ export default class Login extends Component {
                     <input type="password"
                         className="form-control"
                         placeholder="Enter password"
+                        id="password"
                         onChange={(e) => { this.setState({ password: e.target.value }) }}
-                        onKeyDown={() => this.clear("wrong")}
+                        onKeyDown={this.clear}
                     />
+                    <span className="span">{this.state.errPass}</span>
                 </div>
 
                 <div className="form-group">
@@ -75,13 +105,13 @@ export default class Login extends Component {
 
                 <button type="submit"
                     className="btn btn-primary btn-block"
-                    onClick={() => this.submit()}
+                    onClick={this.submit}
                 >Submit</button>
 
                 <p className="forgot-password text-right">
                     Forgot <a href="/">password?</a>
                 </p>
-                <span id="wrong"></span>
+                <span className="span">{this.state.errMsg}</span>
             </div>
         );
     }

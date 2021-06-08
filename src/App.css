@@ -68,14 +68,14 @@ table {
     width: 360;
     background-color: white;
   }
- #firstname,#lastname,#email,#password,#wrong{
+  .span { 
      color: red;
      font-style: italic;
-     font-weight: lighter;
+     font-weight: normal;
      font-size: 15px;
  } 
 
- .App-main img{
+ .App-main img {
      height: 200px;
      padding: 10px;
      width: 330px;
